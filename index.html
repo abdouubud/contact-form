@@ -1,1 +1,215 @@
-!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Contact WeNego</title> <style> @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap'); :root{ --navy:#13213C; --navy-soft:rgba(19,33,60,.65); --periwinkle:#6A7FC0; --off-white:#F2F1EF; --orange:#FCA311; --red:#E90101; --border:#E3E1DC; --max:520px; } *,*::before,*::after{box-sizing:border-box;} body{ margin:0; min-height:100vh; background:var(--off-white); color:var(--navy); font-family:'Inter',sans-serif; display:flex; align-items:center; justify-content:center; padding:40px 20px; line-height:1.5; } .card{ width:100%;max-width:var(--max); background:#fff; border:1px solid var(--border); border-radius:20px; padding:44px 40px; box-shadow:0 20px 50px rgba(19,33,60,.08); } .eyebrow{ font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase; color:var(--periwinkle);margin:0 0 10px; } h1{ font-size:1.7rem;font-weight:800;margin:0 0 8px;line-height:1.25;color:var(--navy); } .sub{color:var(--navy-soft);font-size:.95rem;margin:0 0 30px;} form{display:flex;flex-direction:column;gap:18px;} .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;} @media (max-width:480px){ .row{grid-template-columns:1fr;} } label{ display:block;font-size:.82rem;font-weight:600;color:var(--navy);margin-bottom:6px; } input,textarea{ width:100%;font-family:'Inter',sans-serif;font-size:.95rem;color:var(--navy); border:1.5px solid var(--border);border-radius:10px;padding:12px 14px; background:#fff;transition:border-color .15s ease, box-shadow .15s ease; } input:focus,textarea:focus{ outline:none;border-color:var(--periwinkle);box-shadow:0 0 0 3px rgba(106,127,192,.18); } textarea{resize:vertical;min-height:100px;font-family:inherit;} .required{color:var(--red);} button{ margin-top:8px; font-family:'Inter',sans-serif;font-weight:700;font-size:.95rem; color:#fff;background:var(--navy); border:none;border-radius:100px;padding:15px 24px;cursor:pointer; transition:background .15s ease, transform .15s ease; } button:hover{background:#1c2f52;transform:translateY(-1px);} .note{font-size:.78rem;color:var(--navy-soft);margin-top:14px;text-align:center;} .success{ display:none;text-align:center;padding:20px 0; } .success.show{display:block;} .success .check{ width:52px;height:52px;border-radius:50%;background:var(--periwinkle); color:#fff;display:flex;align-items:center;justify-content:center; margin:0 auto 16px;font-size:1.4rem; } form.hide{display:none;} </style> </head> <body> <div class="card"> <div id="formView"> <span class="eyebrow">Get in touch</span> <h1>Let's talk negotiation.</h1> <p class="sub">Tell us a bit about you and we'll get back to you shortly.</p> <form id="contactForm"> <div class="row"> <div> <label for="firstName">First name <span class="required">*</span></label> <input type="text" id="firstName" name="firstName" required> </div> <div> <label for="lastName">Last name <span class="required">*</span></label> <input type="text" id="lastName" name="lastName" required> </div> </div> <div> <label for="company">Company <span class="required">*</span></label> <input type="text" id="company" name="company" required> </div> <div> <label for="email">Email <span class="required">*</span></label> <input type="email" id="email" name="email" required> </div> <div> <label for="message">Message</label> <textarea id="message" name="message" placeholder="What would you like to talk about?"></textarea> </div> <button type="submit">Send message</button> <p class="note">We'll only use this to get back to you — no spam, ever.</p> </form> </div> <div class="success" id="successView"> <div class="check">✓</div> <h1>Thanks — message sent.</h1> <p class="sub">Someone from WeNego will reach out shortly.</p> </div> </div> <script> // 1. Follow the Google Sheets + Apps Script setup steps to get your own // free, uncapped submission endpoint (ends in /exec). // 2. Paste it below, replacing YOUR_DEPLOYMENT_URL. const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwPrx06g7SS6AKNoea5KoVhVtYVUbgZzVs1fm2xMZeRNEXuUgs-1JoPHSamWO81SGJh/exec'; document.getElementById('contactForm').addEventListener('submit', async function(e){ e.preventDefault(); const form = e.target; const data = new FormData(form); try{ // Apps Script web apps don't return CORS headers, so the browser can't // read the response — 'no-cors' still sends the data through, we just // show success optimistically since we can't inspect the result. await fetch(SHEET_ENDPOINT, { method: 'POST', mode: 'no-cors', body: data }); form.classList.add('hide'); document.getElementById('successView').classList.add('show'); } catch(err){ alert('Something went wrong — please try again or email us directly.'); } }); </script> </body> </html>
+!DOCTYPE html> <html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact WeNego</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --navy: #13213C;
+            --navy-soft: rgba(19, 33, 60, .65);
+            --periwinkle: #6A7FC0;
+            --off-white: #F2F1EF;
+            --orange: #FCA311;
+            --red: #E90101;
+            --border: #E3E1DC;
+            --max: 520px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--off-white);
+            color: var(--navy);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            line-height: 1.5;
+        }
+
+        .card {
+            width: 100%;
+            max-width: var(--max);
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 44px 40px;
+            box-shadow: 0 20px 50px rgba(19, 33, 60, .08);
+        }
+
+        .eyebrow {
+            font-size: .78rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--periwinkle);
+            margin: 0 0 10px;
+        }
+
+        h1 {
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin: 0 0 8px;
+            line-height: 1.25;
+            color: var(--navy);
+        }
+
+        .sub {
+            color: var(--navy-soft);
+            font-size: .95rem;
+            margin: 0 0 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        @media (max-width:480px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        label {
+            display: block;
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 6px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+            font-size: .95rem;
+            color: var(--navy);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            background: #fff;
+            transition: border-color .15s ease, box-shadow .15s ease;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--periwinkle);
+            box-shadow: 0 0 0 3px rgba(106, 127, 192, .18);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        .required {
+            color: var(--red);
+        }
+
+        button {
+            margin-top: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: .95rem;
+            color: #fff;
+            background: var(--navy);
+            border: none;
+            border-radius: 100px;
+            padding: 15px 24px;
+            cursor: pointer;
+            transition: background .15s ease, transform .15s ease;
+        }
+
+        button:hover {
+            background: #1c2f52;
+            transform: translateY(-1px);
+        }
+
+        .note {
+            font-size: .78rem;
+            color: var(--navy-soft);
+            margin-top: 14px;
+            text-align: center;
+        }
+
+        .success {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .success.show {
+            display: block;
+        }
+
+        .success .check {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--periwinkle);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 1.4rem;
+        }
+
+        form.hide {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div id="formView"> <span class="eyebrow">Get in touch</span>
+            <h1>Let's talk negotiation.</h1>
+            <p class="sub">Tell us a bit about you and we'll get back to you shortly.</p>
+            <form id="contactForm">
+                <div class="row">
+                    <div> <label for="firstName">First name <span class="required">*</span></label> <input type="text"
+                            id="firstName" name="firstName" required> </div>
+                    <div> <label for="lastName">Last name <span class="required">*</span></label> <input type="text"
+                            id="lastName" name="lastName" required> </div>
+                </div>
+                <div> <label for="company">Company <span class="required">*</span></label> <input type="text"
+                        id="company" name="company" required> </div>
+                <div> <label for="email">Email <span class="required">*</span></label> <input type="email" id="email"
+                        name="email" required> </div>
+                <div> <label for="message">Message</label> <textarea id="message" name="message"
+                        placeholder="What would you like to talk about?"></textarea> </div> <button type="submit">Send
+                    message</button>
+                <p class="note">We'll only use this to get back to you — no spam, ever.</p>
+            </form>
+        </div>
+        <div class="success" id="successView">
+            <div class="check">✓</div>
+            <h1>Thanks — message sent.</h1>
+            <p class="sub">Someone from WeNego will reach out shortly.</p>
+        </div>
+    </div>
+    <script> // 1. Follow the Google Sheets + Apps Script setup steps to get your own // free, uncapped submission endpoint (ends in /exec). // 2. Paste it below, replacing YOUR_DEPLOYMENT_URL. const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwPrx06g7SS6AKNoea5KoVhVtYVUbgZzVs1fm2xMZeRNEXuUgs-1JoPHSamWO81SGJh/exec'; document.getElementById('contactForm').addEventListener('submit', async function(e){ e.preventDefault(); const form = e.target; const data = new FormData(form); try{ // Apps Script web apps don't return CORS headers, so the browser can't // read the response — 'no-cors' still sends the data through, we just // show success optimistically since we can't inspect the result. await fetch(SHEET_ENDPOINT, { method: 'POST', mode: 'no-cors', body: data }); form.classList.add('hide'); document.getElementById('successView').classList.add('show'); } catch(err){ alert('Something went wrong — please try again or email us directly.'); } }); </script>
+</body>
+
+</html>
